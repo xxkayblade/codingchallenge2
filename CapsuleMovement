@@ -1,0 +1,62 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class CapsuleMovement : MonoBehaviour
+{
+    // declares the variables horiMovement and vertiMovement as a float value
+    float xMovement;
+    float zMovement;
+
+    // declares movementSpeed as a float value initialized at 5
+    float movementSpeed = 5f;
+
+
+    // declares capsuleRB as a Rigidbody and holds the Rigidbody components
+    Rigidbody capsuleRB;
+
+    // delcares jumpHeight as a float variable intialized at 5
+    float jumpHeight = 5f;
+
+    
+    
+    // Start is called before the first frame update
+    void Start()
+    {
+        // grabs all the components of a Rigidbody
+        capsuleRB = GetComponent<Rigidbody>();
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        // calls the Movement and CapsuleJump method
+        Movement();
+        CapsuleJump();
+    }
+ 
+    // provides instructions that allows the game object to move along the x and z axis using WASD and arrow keys
+    void Movement()
+    {
+        // grabs the Horizontal input from the Unity Input Manager and assigns to xMovement
+        xMovement = Input.GetAxis("Horizontal");
+        // allows smooth movement along the x-axis at the movementSpeed value
+        transform.Translate(xMovement * movementSpeed * Time.deltaTime, 0, 0);
+
+        // grabs the Vertical input from the Unity Input Manager and assigns to zMovement
+        zMovement = Input.GetAxis("Vertical");
+        // allows smooth movement along the z-axis at the movementSpeed value
+        transform.Translate(0, 0, zMovement * movementSpeed * Time.deltaTime);
+    }
+
+    // provides instructions to allow the game object to jump after pressing the space key
+    void CapsuleJump()
+    {
+        // grabs Jump input from the Unity Input Manager
+        if (Input.GetButtonDown("Jump"))
+        {
+            // uses the components of the Rigidbody to allow the game object to jump/move through the y-axis
+            capsuleRB.AddForce(Vector3.up * jumpHeight, ForceMode.Impulse);
+        }
+    }
+}
